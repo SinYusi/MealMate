@@ -5,6 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { Link, useHistory } from 'react-router-dom';
 
 function Navigationbar() {
     return (
@@ -26,19 +27,21 @@ function Navigationbar() {
                             <NavDropdown.Item href="#action/3.1">한식</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
-                    <Nav.Link href="#home">게시글</Nav.Link>
-                    <InputGroup className="mb-1" style={{ marginLeft: '80px', width: '60%', border: '3px orange' }}>
+                    <Nav.Link href="#home" style={{ width: '10%' }}>게시글</Nav.Link>
+                    <InputGroup className="mb-1" style={{ marginLeft: '40px', width: '60%', border: '3px orange' }}>
                         <Form.Control
                             placeholder="검색어 입력"
                             aria-label="Recipient's username"
                             aria-describedby="basic-addon2"
                         />
-                        <Button variant="outline-secondary" id="button-addon2">
-                            <img src={process.env.PUBLIC_URL + '/img/search.png'} style={{ width: "20px" }} />
+                        <Button variant="outline-secondary" id="button-addon2" style={{ width: '40px' }}>
+                            <img src={process.env.PUBLIC_URL + '/img/search.png'} style={{ width: "20px", margin: '0 auto' }} />
                         </Button>
                     </InputGroup>
-                    <Button style={{ marginLeft: '40px', backgroundColor: 'white', borderColor: 'orange', color: 'black' }}>로그인</Button>
-                    <Button style={{ marginLeft: '40px', backgroundColor: 'orange', borderColor: 'orange', color: 'black' }}>가입하기</Button>
+                    <Link to='/login' style={{ marginLeft: '80px', width: '10%' }}>
+                        <Button style={{ backgroundColor: 'white', borderColor: 'orange', color: 'black' }}>로그인</Button>
+                    </Link>
+                    <Button style={{ marginLeft: '40px', backgroundColor: 'orange', borderColor: 'orange', color: 'black', width: '10%' }}>가입하기</Button>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
