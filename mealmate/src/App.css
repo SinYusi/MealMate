@@ -39,10 +39,6 @@
 }
 
 .main-bg{
-  height: 300px;
-  background-image: url('/public/img/soonchunhyang.jpg');
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  color: orange;
 }
