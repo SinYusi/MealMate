@@ -2,13 +2,18 @@ import axios from "axios"
 import { useState } from "react"
 
 function SignUp() {
+  //아이디에 필요한 요소들
   let [id, setId] = useState(null)
   let [password, setPassword] = useState(null)
 
+  //아이디와 비번을 입력했는지 확인하는 요소들
   let [isEnterId, setIsEnterId] = useState(null)
   let [isEnterPassword, setIsEnterPassword] = useState(null)
 
-  let [idServerError, setIdServerError] = useState(null)
+  //중복검사를 눌렀는지 확인해주는 요소
+  let [isClickedTest, setIsClickedTest] = useState(null)
+
+  //에러 요소들
   let [idServerMessage, setIdServerMessage] = useState(null)
   let [signupServerError, setSignupServerError] = useState(null)
   let [signupServerMessage, setSignupServerMessage] = useState(null)
@@ -16,18 +21,18 @@ function SignUp() {
   const onIdCheckHandler = async (e) => {
     e.preventDefault();
     if (!id) {
-      setIsEnterId(false)
+      setIdServerMessage('아이디를 먼저 입력하세요')
       return
     }
     try {
       await axios.post('https://api.meal-mate.shop/api/member/check-email', {
         email: id
       })
-      setIdServerError(false)
+      setIdServerMessage(null)
+      setIsClickedTest(true)
     } catch (error) {
       //error 메시지에 따른 메시지 출력
       setIdServerMessage(error.response.data.message)
-      setIdServerError(true);
     }
     setIsEnterId(true)
   }
@@ -35,24 +40,26 @@ function SignUp() {
   const onSignUpHandler = async (e) => {
     e.preventDefault();
     if (!id) {
-      setIsEnterId(false)
+      setIdServerMessage('아이디를 먼저 입력하세요')
       return
     }
     if (!password) {
       setIsEnterPassword(false)
       return
     }
-    try {
-      await axios.post('https://api.meal-mate.shop/api/member/signup', {
-        email: id,
-        password: password
-      })
-      setSignupServerError(false)
-      console.log('회원가입 성공')
-    } catch (error) {
-      alert(error)
+    if (isClickedTest == true) {
+      try {
+        await axios.post('https://api.meal-mate.shop/api/member/signup', {
+          email: id,
+          password: password
+        })
+        setSignupServerError(false)
+        console.log('회원가입 성공')
+      } catch (error) {
+        alert(error)
+      }
     }
-    setIsEnterPassword(true)
+    else setIsClickedTest(false)
   }
 
   return (
@@ -60,13 +67,14 @@ function SignUp() {
       <form onSubmit={onIdCheckHandler}>
         <p>아이디(이메일)입력</p>
         <input type="text" onChange={(e) => { setId(e.target.value) }}></input>
+        <IdErrorMessage idServerMessage={idServerMessage} setIdServerMessage={setIdServerMessage} isEnterId={isEnterId} />
         <button type="submit">중복 검사</button>
-        <IdErrorMessage idServerMessage={idServerMessage} idServerError={idServerError} isEnterId={isEnterId} />
+        {isClickedTest == false ? <p>중복검사를 눌러주세요</p> : null}
       </form>
       <form onSubmit={onSignUpHandler}>
         <p>비밀번호 입력</p>
         <input type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
-        <PasswordErrorMessage isEnterPassword={isEnterPassword} />
+        {isEnterPassword == false ? <p>비밀번호를 먼저 입력하세요</p> : null}
         <button type="submit">가입하기</button>
       </form>
     </>
@@ -75,28 +83,22 @@ function SignUp() {
 
 function IdErrorMessage(props) {
   if (props.isEnterId) {
-    if (props.idServerError) {
-      return (
-        <p>{props.idServerMessage}</p>
-      )
-    }
-    else if (props.idServerError == false) {
-      return (
-        <p>사용 가능합니다.</p>
-      )
+    if (props.idServerMessage == null) {
+      props.setIdServerMessage('사용 가능합니다.')
     }
   }
   else if (props.isEnterId == false) {
-    return (
-      <p>아이디를 입력하세요.</p>
-    )
+    props.setIdServerMessage('아이디를 먼저 입력하세요')
   }
+  return (
+    <p>{props.idServerMessage}</p>
+  )
 }
 
 function PasswordErrorMessage(props) {
   if (props.isEnterPassword == false) {
     return (
-      <p>비밀번호를 입력하세요.</p>
+      <p>비밀번호를 먼저 입력하세요.</p>
     )
   }
 }
