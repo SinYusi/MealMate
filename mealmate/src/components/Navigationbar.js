@@ -5,14 +5,15 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Navigate, useHistory, useNavigate } from 'react-router-dom';
 
 function Navigationbar() {
+    let navigate = useNavigate();
     return (
         <Navbar expand="lg" className="bg-body-tertiary" style={{ width: '100%' }}>
             <Container>
-                <Navbar.Brand href="#home" >
-                    <img src={process.env.PUBLIC_URL + '/img/logo.png'} height={50} width={50} alt="로고" />
+                <Navbar.Brand href='/'>
+                    <img src={process.env.PUBLIC_URL + '/img/logo.png'} height={50} width={50} alt="로고"  onClick = {()=>{navigate('/')}}/>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -41,7 +42,7 @@ function Navigationbar() {
                     <Link to='/login' style={{ marginLeft: '80px', width: '10%' }}>
                         <Button style={{ backgroundColor: 'white', borderColor: 'orange', color: 'black' }}>로그인</Button>
                     </Link>
-                    <Button style={{ marginLeft: '40px', backgroundColor: 'orange', borderColor: 'orange', color: 'black', width: '10%' }}>가입하기</Button>
+                    <Button style={{ marginLeft: '40px', backgroundColor: 'orange', borderColor: 'orange', color: 'black', width: '10%' }} onClick={()=>{navigate('/signup')}}>가입하기</Button>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
