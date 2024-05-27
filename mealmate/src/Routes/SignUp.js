@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 function SignUp() {
   //아이디에 필요한 요소들
@@ -18,23 +19,27 @@ function SignUp() {
   let [signupServerError, setSignupServerError] = useState(null)
   let [signupServerMessage, setSignupServerMessage] = useState(null)
 
+  let navigate = useNavigate()
+
   const onIdCheckHandler = async (e) => {
     e.preventDefault();
     if (!id) {
       setIdServerMessage('아이디를 먼저 입력하세요')
       return
     }
-    try {
-      await axios.post('https://api.meal-mate.shop/api/member/check-email', {
-        email: id
-      })
-      setIdServerMessage(null)
-      setIsClickedTest(true)
-    } catch (error) {
-      //error 메시지에 따른 메시지 출력
-      setIdServerMessage(error.response.data.message)
+    else {
+      try {
+        await axios.post('https://api.meal-mate.shop/api/member/check-email', {
+          email: id
+        })
+        setIdServerMessage(null)
+        setIsClickedTest(true)
+      } catch (error) {
+        //error 메시지에 따른 메시지 출력
+        setIdServerMessage(error.response.data.message)
+      }
+      setIsEnterId(true)
     }
-    setIsEnterId(true)
   }
 
   const onSignUpHandler = async (e) => {
@@ -55,6 +60,7 @@ function SignUp() {
         })
         setSignupServerError(false)
         console.log('회원가입 성공')
+        navigate('/login')
       } catch (error) {
         alert(error)
       }

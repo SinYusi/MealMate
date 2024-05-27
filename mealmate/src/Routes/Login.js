@@ -1,28 +1,40 @@
 import { useState } from 'react';
 import '../Css/Login.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 function Login() {
     let [id, setId] = useState(null)
     let [password, setPassword] = useState(null)
-    let [token, setToken] = useState(null)
+    let [error, setError] = useState(null)
+    let navigate = useNavigate()
+    const [cookies, setCookie] = useCookies(['access_token'])
     const handleSubmit = async (e) => {
+        e.preventDefault();
         if (!id)
-            alert('id 입력하셈')
-        if (!password)
-            alert('비번 입력하셈')
-
-        try {
-            await axios.post('https://api.meal-mate.shop/api/login', {
-                email: id,
-                password: password
-            })
-                .then((response) => {
-                    setToken(response)
+            setError('아이디를 입력하세요')
+        if (id)
+            if (!password)
+                setError('비밀번호를 입력하세요')
+        if (id && password) {
+            try {
+                const response = await axios.post('https://api.meal-mate.shop/api/login', {
+                    email: id,
+                    password: password
                 })
-        } catch (error) {
-            console.error('로그인 실패:', error);
-            alert('로그인 실패: ' + error.response.data.message); // 서버로부터의 에러 메시지 표시
+                const token = response.data.token
+                setCookie('access_token', token, {
+                    path: '/',
+                    httpOnly: false,
+                    secure: true,
+                    sameSite: 'Strict',
+                    maxAge: 3600
+                })
+                navigate('/')
+            } catch (error) {
+                setError('아이디 혹은 비밀번호를 잘못 입력하셨습니다.')
+            }
         }
     }
     return (
@@ -31,12 +43,13 @@ function Login() {
             <form onSubmit={handleSubmit}>
                 <div class="input-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" onChange={(e) => { setId(e.target.value) }} required />
+                    <input type="text" id="username" name="username" onChange={(e) => { setId(e.target.value) }} />
                 </div>
                 <div class="input-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" onChange={(e) => { setPassword(e.target.value) }} required />
+                    <input type="password" id="password" name="password" onChange={(e) => { setPassword(e.target.value) }} />
                 </div>
+                {error == null ? null : error}
                 <button type="submit">Login</button>
             </form>
         </div>
