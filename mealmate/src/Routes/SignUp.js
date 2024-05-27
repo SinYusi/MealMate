@@ -3,9 +3,12 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 function SignUp() {
+  let categoryName = ['보쌈', '일식', '고기', '피자', '찌개', '양식', '중식', '아시안', '치킨', '집밥', '버거', '분식', '카페']
+  const maxChecked = 3;
   //아이디에 필요한 요소들
   let [id, setId] = useState(null)
   let [password, setPassword] = useState(null)
+  let [category, setCategory] = useState([])
 
   //아이디와 비번을 입력했는지 확인하는 요소들
   let [isEnterId, setIsEnterId] = useState(null)
@@ -16,8 +19,6 @@ function SignUp() {
 
   //에러 요소들
   let [idServerMessage, setIdServerMessage] = useState(null)
-  let [signupServerError, setSignupServerError] = useState(null)
-  let [signupServerMessage, setSignupServerMessage] = useState(null)
 
   let navigate = useNavigate()
 
@@ -54,11 +55,14 @@ function SignUp() {
     }
     if (isClickedTest == true) {
       try {
+        const categoryRegisters = category.map(categoryName => ({
+          categoryName
+        }));
         await axios.post('https://api.meal-mate.shop/api/member/signup', {
+          categoryRegisters: categoryRegisters,
           email: id,
           password: password
         })
-        setSignupServerError(false)
         console.log('회원가입 성공')
         navigate('/login')
       } catch (error) {
@@ -68,19 +72,42 @@ function SignUp() {
     else setIsClickedTest(false)
   }
 
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+    if (category.includes(value)) {
+      setCategory(category.filter((index) => index !== value));
+    } else {
+      if (category.length < maxChecked) {
+        setCategory([...category, value]);
+      } else {
+        alert(`3개 까지만 체크 가능합니다.`);
+      }
+    }
+  };
+
   return (
     <>
-      <form onSubmit={onIdCheckHandler}>
-        <p>아이디(이메일)입력</p>
+      <p>아이디(이메일)입력</p>
+      <form onSubmit={onIdCheckHandler} style={{ display: 'flex', height: '30px' }}>
         <input type="text" onChange={(e) => { setId(e.target.value) }}></input>
         <IdErrorMessage idServerMessage={idServerMessage} setIdServerMessage={setIdServerMessage} isEnterId={isEnterId} />
-        <button type="submit">중복 검사</button>
+        <button type="submit" style={{ width: '100px', height: '30px', marginLeft: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>중복 검사</button>
         {isClickedTest == false ? <p>중복검사를 눌러주세요</p> : null}
       </form>
       <form onSubmit={onSignUpHandler}>
         <p>비밀번호 입력</p>
         <input type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
         {isEnterPassword == false ? <p>비밀번호를 먼저 입력하세요</p> : null}
+        <div style={{ display: "flex" }}>
+          {categoryName.map(function (index) {
+            return (
+              <div style={{ marginRight: '10px' }}>
+                <input type="checkbox" id={index} value={index} checked={category.includes(index)} onChange={handleCheckboxChange} />
+                <label for={index}>{index}</label>
+              </div>
+            )
+          })}
+        </div>
         <button type="submit">가입하기</button>
       </form>
     </>
@@ -99,14 +126,6 @@ function IdErrorMessage(props) {
   return (
     <p>{props.idServerMessage}</p>
   )
-}
-
-function PasswordErrorMessage(props) {
-  if (props.isEnterPassword == false) {
-    return (
-      <p>비밀번호를 먼저 입력하세요.</p>
-    )
-  }
 }
 
 export default SignUp
