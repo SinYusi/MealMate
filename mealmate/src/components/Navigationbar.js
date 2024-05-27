@@ -5,15 +5,29 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Link, Navigate, useHistory, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { useEffect, useState } from 'react';
 
 function Navigationbar() {
     let navigate = useNavigate();
+    const [cookies] = useCookies(['access_token']);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        // 쿠키에 토큰이 있는지 확인
+        const token = cookies.access_token;
+        if (token) {
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+        }
+    }, [cookies]);
     return (
         <Navbar expand="lg" className="bg-body-tertiary" style={{ width: '100%' }}>
             <Container>
                 <Navbar.Brand href='/'>
-                    <img src={process.env.PUBLIC_URL + '/img/logo.png'} height={50} width={50} alt="로고"  onClick = {()=>{navigate('/')}}/>
+                    <img src={process.env.PUBLIC_URL + '/img/logo.png'} height={50} width={50} alt="로고" onClick={() => { navigate('/') }} />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -39,14 +53,39 @@ function Navigationbar() {
                             <img src={process.env.PUBLIC_URL + '/img/search.png'} style={{ width: "20px", margin: '0 auto' }} />
                         </Button>
                     </InputGroup>
-                    <Link to='/login' style={{ marginLeft: '80px', width: '10%' }}>
-                        <Button style={{ backgroundColor: 'white', borderColor: 'orange', color: 'black' }}>로그인</Button>
-                    </Link>
-                    <Button style={{ marginLeft: '40px', backgroundColor: 'orange', borderColor: 'orange', color: 'black', width: '10%' }} onClick={()=>{navigate('/signup')}}>가입하기</Button>
+                    <LoginOrMypage navigate={navigate} isAuthenticated={isAuthenticated} />
                 </Navbar.Collapse>
             </Container>
         </Navbar>
     )
+}
+
+function LoginOrMypage(props) {
+    const [, , removeCookie] = useCookies(['access_token']);
+
+    const handleLogout = () => {
+        removeCookie('access_token', { path: '/' }); // 쿠키 삭제
+        props.navigate('/')
+    };
+    if (props.isAuthenticated) {
+        return (
+            <>
+                <Button style={{ backgroundColor: 'white', borderColor: 'orange', color: 'black', marginLeft: '80px', width: '10%'}} onClick={() => { handleLogout() }}>
+                    Logout
+                </Button>
+            </>
+        )
+    }
+    else {
+        return (
+            <>
+                <Link to='/login' style={{ marginLeft: '80px', width: '10%' }}>
+                    <Button style={{ backgroundColor: 'white', borderColor: 'orange', color: 'black' }}>로그인</Button>
+                </Link>
+                <Button style={{ marginLeft: '40px', backgroundColor: 'orange', borderColor: 'orange', color: 'black', width: '10%' }} onClick={() => { props.navigate('/signup') }}>가입하기</Button>
+            </>
+        )
+    }
 }
 
 export default Navigationbar
