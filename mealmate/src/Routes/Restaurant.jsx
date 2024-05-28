@@ -1,37 +1,54 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 function Restaurant() {
-  const restaurantId = useParams().id
-  let [restaurant, setRestaurant] = useState({})
+  const [restaurantData, setRestaurantData] = useState(0); // 상태 초기화
+  const [isFull, setIsFull] = useState(false);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`https://api.meal-mate.shop/api/restaurant/${restaurantId}`)
-        setRestaurant(response.data)
-      } catch (error) {
-        console.log(error)
+    axios({
+      method: 'get',
+      url: `https://api.meal-mate.shop/api/restaurant`,
+      params: {
+        type: ''  // 쿼리 파라미터 key-value
       }
-    }
-    fetchData();
+    })
+      .then((response) => {
+        setRestaurantData(response.data)
+        setIsFull(true)
+      })
+      .catch(() => {
+        console.log('실패');
+      })
   }, [])
 
-  return (
-    <Container>
-      <Row>
-        <Col>
-          <h3>{restaurant.restaurantName}</h3>
-          <img src={restaurant.restaurantImageUrl} alt='식당사진' style={{ width: '100%' }} />
-        </Col>
-        <Col>
-          <p style={{marginTop: '40px'}}>여는 시간 : {restaurant.openAt}</p>
-          <p>닫는 시간 : {restaurant.closeAt}</p>
-        </Col>
-      </Row>
-    </Container>
-  )
+  if (isFull) {
+    return (
+      <div>
+        {
+          <Container>
+            <Row>
+              {
+                restaurantData.map((data) => {
+                  return (
+                    <Col>
+                      <Link to={'./' + data.restaurantId} style={{ textDecorationLine: 'none' }}>
+                        <img src={data.restaurantImageUrl} height={200} width={200} alt='식당이미지' />
+                        <h4 style={{ color: 'black' }}>{data.restaurantName}</h4>
+                        <p style={{ color: 'black' }}>{data.restaurantType}</p>
+                        <p style={{ color: 'black' }}>{data.likeCount}</p>
+                      </Link>
+                    </Col>
+                  )
+                })
+              }
+            </Row>
+          </Container>
+        }
+      </div>
+    )
+  }
 }
 
 export default Restaurant

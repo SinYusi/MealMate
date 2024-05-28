@@ -24,25 +24,17 @@ function Navigationbar() {
         }
     }, [cookies]);
     return (
-        <Navbar expand="lg" className="bg-body-tertiary" style={{ width: '100%' }}>
+        < Navbar expand="lg" className="bg-body-tertiary" style={{ width: '100%' }}>
             <Container>
-                <Navbar.Brand href='/'>
+                <Navbar.Brand href="/">
                     <img src={process.env.PUBLIC_URL + '/img/logo.png'} height={50} width={50} alt="로고" onClick={() => { navigate('/') }} />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <NavDropdown title="카테고리" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">중식</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.1">일식</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.1">양식</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.1">한식</NavDropdown.Item>
-                        </NavDropdown>
+                        <Nav.Link href="/restaurant" style={{ width: '60px' }}>식당</Nav.Link>
+                        <Nav.Link href="/board" style={{ width: '80px' }}>게시글</Nav.Link>
                     </Nav>
-                    <Nav.Link href="#home" style={{ width: '10%' }}>게시글</Nav.Link>
                     <InputGroup className="mb-1" style={{ marginLeft: '40px', width: '60%', border: '3px orange' }}>
                         <Form.Control
                             placeholder="검색어 입력"
@@ -56,7 +48,7 @@ function Navigationbar() {
                     <LoginOrMypage navigate={navigate} isAuthenticated={isAuthenticated} />
                 </Navbar.Collapse>
             </Container>
-        </Navbar>
+        </Navbar >
     )
 }
 
@@ -70,7 +62,7 @@ function LoginOrMypage(props) {
     if (props.isAuthenticated) {
         return (
             <>
-                <Button style={{ backgroundColor: 'white', borderColor: 'orange', color: 'black', marginLeft: '80px', width: '10%'}} onClick={() => { handleLogout() }}>
+                <Button style={{ backgroundColor: 'white', borderColor: 'orange', color: 'black', marginLeft: '80px', width: '10%' }} onClick={() => { handleLogout() }}>
                     Logout
                 </Button>
             </>

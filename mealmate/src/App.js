@@ -6,6 +6,8 @@ import AddRestaurant from './Routes/AddRestaurant'
 import Navigationbar from './components/Navigationbar';
 import SignUp from './Routes/SignUp';
 import Restaurant from './Routes/Restaurant';
+import Board from './Routes/Board';
+import DetailRestaurant from './Routes/DetailRestaurant';
 
 function App() {
   return (
@@ -16,7 +18,9 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/addrestaurant' element={<AddRestaurant />} />
         <Route path='/signup' element={<SignUp />} />
-        <Route path='/restaurant/:id' element={<Restaurant/>}/>
+        <Route path='/restaurant' element={<Restaurant />} />
+        <Route path='/restaurant/:id' element={<DetailRestaurant />} />
+        <Route path='/board' element={<Board />} />
       </Routes>
     </div>
   );
