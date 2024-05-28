@@ -9,10 +9,7 @@ function Home() {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `https://api.meal-mate.shop/api/restaurant`,
-      params: {
-        type: ''  // 쿼리 파라미터 key-value
-      }
+      url: `https://api.meal-mate.shop/api/restaurant/best`
     })
       .then((response) => {
         setRestaurantData(response.data)

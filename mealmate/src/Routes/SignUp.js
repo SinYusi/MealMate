@@ -53,7 +53,7 @@ function SignUp() {
       setIsEnterPassword(false)
       return
     }
-    if (isClickedTest == true) {
+    if (isClickedTest === true) {
       try {
         const categoryRegisters = category.map(categoryName => ({
           categoryName
@@ -92,12 +92,12 @@ function SignUp() {
         <input type="text" onChange={(e) => { setId(e.target.value) }}></input>
         <IdErrorMessage idServerMessage={idServerMessage} setIdServerMessage={setIdServerMessage} isEnterId={isEnterId} />
         <button type="submit" style={{ width: '100px', height: '30px', marginLeft: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>중복 검사</button>
-        {isClickedTest == false ? <p>중복검사를 눌러주세요</p> : null}
+        {isClickedTest === false ? <p>중복검사를 눌러주세요</p> : null}
       </form>
       <form onSubmit={onSignUpHandler}>
         <p>비밀번호 입력</p>
         <input type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
-        {isEnterPassword == false ? <p>비밀번호를 먼저 입력하세요</p> : null}
+        {isEnterPassword === false ? <p>비밀번호를 먼저 입력하세요</p> : null}
         <div style={{ display: "flex" }}>
           {categoryName.map(function (index) {
             return (
@@ -120,7 +120,7 @@ function IdErrorMessage(props) {
       props.setIdServerMessage('사용 가능합니다.')
     }
   }
-  else if (props.isEnterId == false) {
+  else if (props.isEnterId === false) {
     props.setIdServerMessage('아이디를 먼저 입력하세요')
   }
   return (

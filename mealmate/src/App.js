@@ -8,6 +8,8 @@ import SignUp from './Routes/SignUp';
 import Restaurant from './Routes/Restaurant';
 import Board from './Routes/Board';
 import DetailRestaurant from './Routes/DetailRestaurant';
+import AddBoard from './Routes/AddBoard';
+import DetailBoard from './Routes/DetailBoard';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path='/restaurant' element={<Restaurant />} />
         <Route path='/restaurant/:id' element={<DetailRestaurant />} />
         <Route path='/board' element={<Board />} />
+        <Route path='/board/:id' element={<DetailBoard />} />
+        <Route path='/addboard' element={<AddBoard />} />
       </Routes>
     </div>
   );
