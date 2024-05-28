@@ -3,6 +3,8 @@ import '../Css/Login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function Login() {
     let [id, setId] = useState(null)
@@ -38,21 +40,23 @@ function Login() {
         }
     }
     return (
-        <div class="login-container">
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <div class="input-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" onChange={(e) => { setId(e.target.value) }} />
-                </div>
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" onChange={(e) => { setPassword(e.target.value) }} />
-                </div>
-                {error == null ? null : error}
-                <button type="submit">Login</button>
-            </form>
-        </div>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '700px', height: '300px', border: '1px solid black' }}>
+            <Form onSubmit={handleSubmit} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="text" placeholder="Enter email" onChange={(e) => { setId(e.target.value) }} />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" onChange={(e) => { setPassword(e.target.value) }} />
+                </Form.Group>
+                {error == null ? null : <Form.Text>{error}</Form.Text>}
+                <Button variant="primary" type="submit">
+                    Submit
+                </Button>
+            </Form>
+        </div >
     )
 }
 
