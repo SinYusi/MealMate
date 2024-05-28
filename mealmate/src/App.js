@@ -5,6 +5,7 @@ import Home from './Routes/Home'
 import AddRestaurant from './Routes/AddRestaurant'
 import Navigationbar from './components/Navigationbar';
 import SignUp from './Routes/SignUp';
+import Restaurant from './Routes/Restaurant';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/addrestaurant' element={<AddRestaurant />} />
         <Route path='/signup' element={<SignUp />} />
+        <Route path='/restaurant/:id' element={<Restaurant/>}/>
       </Routes>
     </div>
   );
