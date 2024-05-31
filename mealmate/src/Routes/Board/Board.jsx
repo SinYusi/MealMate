@@ -1,6 +1,5 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { Form } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
 function Board() {
@@ -42,6 +41,7 @@ function FermentBoard(props) {
                   <p>{data.title}</p>
                 </Link>
                 <p>{data.lastTime}</p>
+                <p>{data.email}</p>
               </>
             )
           })

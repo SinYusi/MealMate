@@ -10,7 +10,7 @@ function Login() {
     let [password, setPassword] = useState(null)
     let [error, setError] = useState(null)
     let navigate = useNavigate()
-    const [cookies, setCookie] = useCookies(['access_token'])
+    const [ , setCookie] = useCookies(['access_token'])
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!id)

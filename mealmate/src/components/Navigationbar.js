@@ -41,7 +41,7 @@ function Navigationbar() {
                             aria-describedby="basic-addon2"
                         />
                         <Button variant="outline-secondary" id="button-addon2" style={{ width: '40px' }}>
-                            <img src={process.env.PUBLIC_URL + '/img/search.png'} style={{ width: "20px", margin: '0 auto' }} />
+                            <img src={process.env.PUBLIC_URL + '/img/search.png'} style={{ width: "20px", margin: '0 auto' }} alt='로고'/>
                         </Button>
                     </InputGroup>
                     <LoginOrMypage navigate={navigate} isAuthenticated={isAuthenticated} />

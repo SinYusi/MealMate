@@ -16,7 +16,7 @@ function DetailRestaurant() {
       }
     }
     fetchData();
-  }, [])
+  }, [restaurantId])
 
   return (
     <Container>

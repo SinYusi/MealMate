@@ -2,14 +2,14 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Login from './Routes/Login'
 import Home from './Routes/Home'
-import AddRestaurant from './Routes/AddRestaurant'
 import Navigationbar from './components/Navigationbar';
 import SignUp from './Routes/SignUp';
-import Restaurant from './Routes/Restaurant';
-import Board from './Routes/Board';
-import DetailRestaurant from './Routes/DetailRestaurant';
-import AddBoard from './Routes/AddBoard';
-import DetailBoard from './Routes/DetailBoard';
+import AddRestaurant from './Routes/Restaurant/AddRestaurant';
+import Restaurant from './Routes/Restaurant/Restaurant';
+import DetailRestaurant from './Routes/Restaurant/DetailRestaurant';
+import Board from './Routes/Board/Board';
+import DetailBoard from './Routes/Board/DetailBoard';
+import AddBoard from './Routes/Board/AddBoard';
 
 function App() {
   return (
