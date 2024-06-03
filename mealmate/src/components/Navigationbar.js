@@ -7,6 +7,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
+import { NavDropdown } from 'react-bootstrap';
 
 function Navigationbar() {
     let navigate = useNavigate();
@@ -41,10 +42,15 @@ function Navigationbar() {
                             aria-describedby="basic-addon2"
                         />
                         <Button variant="outline-secondary" id="button-addon2" style={{ width: '40px' }}>
-                            <img src={process.env.PUBLIC_URL + '/img/search.png'} style={{ width: "20px", margin: '0 auto' }} alt='로고'/>
+                            <img src={process.env.PUBLIC_URL + '/img/search.png'} style={{ width: "20px", margin: '0 auto' }} alt='로고' />
                         </Button>
                     </InputGroup>
                     <LoginOrMypage navigate={navigate} isAuthenticated={isAuthenticated} />
+                    <NavDropdown title="My Page" id="basic-nav-dropdown" style={{ marginLeft: '40px' }}>
+                        <NavDropdown.Item href="/wish">찜 목록</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="/mypage">내 정보</NavDropdown.Item>
+                    </NavDropdown>
                 </Navbar.Collapse>
             </Container>
         </Navbar >

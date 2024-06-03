@@ -10,6 +10,7 @@ import DetailRestaurant from './Routes/Restaurant/DetailRestaurant';
 import Board from './Routes/Board/Board';
 import DetailBoard from './Routes/Board/DetailBoard';
 import AddBoard from './Routes/Board/AddBoard';
+import Wish from './Routes/Wish';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/board' element={<Board />} />
         <Route path='/board/:id' element={<DetailBoard />} />
         <Route path='/addboard' element={<AddBoard />} />
+        <Route path='/wish' element={<Wish />} />
       </Routes>
     </div>
   );

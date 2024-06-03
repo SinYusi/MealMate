@@ -8,10 +8,17 @@ function DetailBoard() {
   let [board, setBoard] = useState({})
   let [comment, setComment] = useState([])
   let [isComment, setIsComment] = useState(false)
+  const [cookies] = useCookies(['access_token'])
+  
   useEffect(() => {
     const loadDetailData = async () => {
+      const token = cookies.access_token
       try {
-        const response = await axios.get(`https://api.meal-mate.shop/api/board/${boardId}`)
+        const response = await axios.get(`https://api.meal-mate.shop/api/board/${boardId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
         setBoard(response.data)
       } catch (error) {
         console.log(error)
