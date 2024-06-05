@@ -16,16 +16,19 @@ function Wish() {
             Authorization: `Bearer ${token}`
           }
         })
-        setWishData((response).data)
+        
+        setWishData(response.data)
       } catch (error) {
         console.log(error)
       }
     }
     getWishData()
-  })
+  }, [])
 
   return (
-    <RestaurantCard restaurantData={wishData} />
+    <>
+      {wishData == null ? null : <RestaurantCard restaurantData={wishData.restaurantInfoList} />}
+    </>
   )
 }
 

@@ -46,11 +46,6 @@ function Navigationbar() {
                         </Button>
                     </InputGroup>
                     <LoginOrMypage navigate={navigate} isAuthenticated={isAuthenticated} />
-                    <NavDropdown title="My Page" id="basic-nav-dropdown" style={{ marginLeft: '40px' }}>
-                        <NavDropdown.Item href="/wish">찜 목록</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="/mypage">내 정보</NavDropdown.Item>
-                    </NavDropdown>
                 </Navbar.Collapse>
             </Container>
         </Navbar >
@@ -70,6 +65,11 @@ function LoginOrMypage(props) {
                 <Button style={{ backgroundColor: 'white', borderColor: 'orange', color: 'black', marginLeft: '80px', width: '10%' }} onClick={() => { handleLogout() }}>
                     Logout
                 </Button>
+                <NavDropdown title="My Page" id="basic-nav-dropdown" style={{ marginLeft: '40px' }}>
+                    <NavDropdown.Item href="/wish">찜 목록</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/mypage">내 정보</NavDropdown.Item>
+                </NavDropdown>
             </>
         )
     }

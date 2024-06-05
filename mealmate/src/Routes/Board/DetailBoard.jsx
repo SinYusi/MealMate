@@ -1,4 +1,5 @@
 import axios from "axios"
+import { jwtDecode } from "jwt-decode"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 import { useNavigate, useParams } from "react-router-dom"
@@ -9,10 +10,12 @@ function DetailBoard() {
   let [comment, setComment] = useState([])
   let [isComment, setIsComment] = useState(false)
   const [cookies] = useCookies(['access_token'])
-  
+  const [isMatched, setIsMatched] = useState(false)
+
   useEffect(() => {
     const loadDetailData = async () => {
       const token = cookies.access_token
+      const decodedToken = jwtDecode(token)
       try {
         const response = await axios.get(`https://api.meal-mate.shop/api/board/${boardId}`, {
           headers: {
@@ -20,6 +23,7 @@ function DetailBoard() {
           }
         })
         setBoard(response.data)
+        if (decodedToken.sub == board.email) { setIsMatched(true) }
       } catch (error) {
         console.log(error)
       }
@@ -36,7 +40,6 @@ function DetailBoard() {
     }
     loadCommentData()
   }, [boardId])
-
   return (
     <>
       <h2>{board.title}</h2>

@@ -29,7 +29,7 @@ function Home() {
               {
                 restaurantData.map((data) => {
                   return (
-                    <Col>
+                    <Col key={data.restaurantId}>
                       <Link to={'restaurant/' + data.restaurantId} style={{ textDecorationLine: 'none' }}>
                         <img src={data.restaurantImageUrl} height={200} width={200} alt='식당이미지' />
                         <h4 style={{ color: 'black' }}>{data.restaurantName}</h4>
