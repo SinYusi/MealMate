@@ -76,10 +76,12 @@ function LoginOrMypage(props) {
     else {
         return (
             <>
-                <Link to='/login' style={{ marginLeft: '80px', width: '10%' }}>
+                <Nav.Link href='/login' style={{ marginLeft: '80px', width: '100px' }}>
                     <Button style={{ backgroundColor: 'white', borderColor: 'orange', color: 'black' }}>로그인</Button>
-                </Link>
-                <Button style={{ marginLeft: '40px', backgroundColor: 'orange', borderColor: 'orange', color: 'black', width: '10%' }} onClick={() => { props.navigate('/signup') }}>가입하기</Button>
+                </Nav.Link>
+                <Nav.Link href='/signup'>
+                    <Button style={{ marginLeft: '40px', backgroundColor: 'orange', borderColor: 'orange', color: 'black', width: '100px' }} onClick={() => { props.navigate('/signup') }}>가입하기</Button>
+                </Nav.Link>
             </>
         )
     }
