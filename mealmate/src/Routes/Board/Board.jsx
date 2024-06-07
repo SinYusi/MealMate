@@ -36,13 +36,13 @@ function FermentBoard(props) {
         {
           props.boardData.map((data) => {
             return (
-              <>
+              <div key={data.boardId} >
                 <Link to={'./' + data.boardId} style={{ textDecorationLine: 'none' }}>
                   <p>{data.title}</p>
                 </Link>
                 <p>{data.lastTime}</p>
                 <p>{data.email}</p>
-              </>
+              </div >
             )
           })
         }
