@@ -3,11 +3,11 @@ import { jwtDecode } from "jwt-decode"
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 import { useNavigate, useParams } from "react-router-dom"
+import Comment from "./Comment"
 
 function DetailBoard() {
   const boardId = useParams().id
   let [board, setBoard] = useState({})
-  let [comment, setComment] = useState([])
   let [isComment, setIsComment] = useState(false)
   const [cookies] = useCookies(['access_token'])
   const [user, setUser] = useState(null)
@@ -28,17 +28,7 @@ function DetailBoard() {
         console.log(error)
       }
     }
-    loadDetailData();
-    const loadCommentData = async () => {
-      try {
-        const response = await axios.get(`https://api.meal-mate.shop/api/comment/${boardId}`)
-        setComment(response.data)
-        console.log('댓글 데이터 불러오기 성공')
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    loadCommentData()
+    loadDetailData()
   }, [boardId, cookies])
 
   let isMatched = false
@@ -59,7 +49,7 @@ function DetailBoard() {
       </div>
       <fieldset>
         <legend>댓글</legend>
-        {<Comment comment={comment} />}
+        {<Comment boardId={boardId} user={user} />}
       </fieldset>
       <button onClick={() => setIsComment(true)}>댓글쓰기</button>
       {isComment === true ? <AddComment boardId={boardId} /> : null}
@@ -91,30 +81,11 @@ function DeleteAndFetchBoard(props) {
   )
 }
 
-function Comment({ comment }) {
-  return (
-    <div>
-      {comment.map((data) => (
-        <div key={data.commentId} style={{ position: 'relative', marginBottom: '1em' }}>
-          <div style={{display: 'flex'}}>
-            <p>{data.commentContent}</p>
-            <p>{data.createDt}</p>
-          </div>
-          <div>
-            <p>{data.email}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-}
-
 function AddComment(props) {
-  const navigate = useNavigate()
   const [cookies] = useCookies(['access_token'])
   const [addComment, setAddComment] = useState(null)
-  const [success, setSuccess] = useState(false)
   const handleSubmit = async (e) => {
+    e.preventDefault()
     const token = cookies.access_token
     try {
       await axios.post(`https://api.meal-mate.shop/api/comment/${props.boardId}`, {
@@ -124,12 +95,10 @@ function AddComment(props) {
           Authorization: `Bearer ${token}`
         }
       })
-      setSuccess(true)
+      document.location.href = document.location.href;
     } catch (error) {
       console.log(error)
     }
-    if (success === true)
-      navigate('./')
   }
   return (
     <form onSubmit={handleSubmit}>
