@@ -13,19 +13,27 @@ function AddBoard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = cookies.access_token
-    try {
-      await axios.post('https://api.meal-mate.shop/api/board', {
-        content: content,
-        title: title
-      },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-      navigate('/board')
-    } catch (error) {
-      console.log(error)
+    if (title && content) {
+      try {
+        await axios.post('https://api.meal-mate.shop/api/board', {
+          content: content,
+          title: title
+        },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
+        navigate('/board')
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    if (title == null) {
+      alert('제목을 작성해주세요')
+    }
+    if (content == null) {
+      alert('내용을 작성해주세요')
     }
   }
 

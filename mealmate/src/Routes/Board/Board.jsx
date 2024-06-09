@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useCookies } from "react-cookie"
 import { Link } from "react-router-dom"
 
 function Board() {
@@ -25,9 +26,14 @@ function Board() {
 }
 
 function FermentBoard(props) {
+  const [cookies] = useCookies(['access_token'])
+  console.log(cookies)
   if (props.boardData === null) {
     return (
-      <Link to='/addboard'>글 쓰기</Link>
+      <div>
+        <p>게시글이 없습니다.</p>
+        {cookies.access_token ? <Link to='/addboard'>글 쓰기</Link> : null}
+      </div>
     )
   }
   else {
@@ -46,7 +52,7 @@ function FermentBoard(props) {
             )
           })
         }
-        <Link to='/addboard'>글 쓰기</Link>
+        {cookies.access_token ? <Link to='/addboard'>글 쓰기</Link> : null}
       </>
     )
   }
