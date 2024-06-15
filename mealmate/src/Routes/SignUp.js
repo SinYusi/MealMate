@@ -87,29 +87,31 @@ function SignUp() {
 
   return (
     <>
-      <p>아이디(이메일)입력</p>
-      <form onSubmit={onIdCheckHandler} style={{ display: 'flex', height: '30px' }}>
-        <input type="text" onChange={(e) => { setId(e.target.value) }}></input>
-        <IdErrorMessage idServerMessage={idServerMessage} setIdServerMessage={setIdServerMessage} isEnterId={isEnterId} />
-        <button type="submit" style={{ width: '100px', height: '30px', marginLeft: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>중복 검사</button>
-        {isClickedTest === false ? <p>중복검사를 눌러주세요</p> : null}
-      </form>
-      <form onSubmit={onSignUpHandler}>
-        <p>비밀번호 입력</p>
-        <input type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
-        {isEnterPassword === false ? <p>비밀번호를 먼저 입력하세요</p> : null}
-        <div style={{ display: "flex" }}>
-          {categoryName.map(function (index) {
-            return (
-              <div style={{ marginRight: '10px' }}>
-                <input type="checkbox" id={index} value={index} checked={category.includes(index)} onChange={handleCheckboxChange} />
-                <label for={index}>{index}</label>
-              </div>
-            )
-          })}
-        </div>
-        <button type="submit">가입하기</button>
-      </form>
+      <div style={{marginLeft: '100px', marginTop: '50px'}}>
+        <p>아이디(이메일)입력</p>
+        <form onSubmit={onIdCheckHandler} style={{ display: 'flex', height: '30px' }}>
+          <input type="text" onChange={(e) => { setId(e.target.value) }}></input>
+          <IdErrorMessage idServerMessage={idServerMessage} setIdServerMessage={setIdServerMessage} isEnterId={isEnterId} />
+          <button type="submit" style={{ width: '100px', height: '30px', marginLeft: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>중복 검사</button>
+          {isClickedTest === false ? <p>중복검사를 눌러주세요</p> : null}
+        </form>
+        <form onSubmit={onSignUpHandler}>
+          <p>비밀번호 입력</p>
+          <input type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
+          {isEnterPassword === false ? <p>비밀번호를 먼저 입력하세요</p> : null}
+          <div style={{ display: "flex" }}>
+            {categoryName.map(function (index) {
+              return (
+                <div style={{ marginRight: '10px' }}>
+                  <input type="checkbox" id={index} value={index} checked={category.includes(index)} onChange={handleCheckboxChange} />
+                  <label for={index}>{index}</label>
+                </div>
+              )
+            })}
+          </div>
+          <button type="submit">가입하기</button>
+        </form>
+      </div>
     </>
   )
 }

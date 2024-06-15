@@ -59,7 +59,7 @@ function DetailRestaurant() {
       <Row>
         <Col>
           <h3>{restaurant.restaurantName}</h3>
-          <img src={restaurant.restaurantImageUrl} alt='식당사진' style={{ width: '100%' }} />
+          <img src={restaurant.restaurantImageUrl} alt='식당사진' style={{ width: '400px', height: '400px' }} />
         </Col>
         <Col>
           <p style={{ marginTop: '40px' }}>여는 시간 : {restaurant.openAt}</p>

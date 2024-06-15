@@ -23,6 +23,9 @@ function Home() {
   if (isFull) {
     return (
       <div>
+        <div style={{marginLeft: '100px'}}>
+          <h2>Top 3</h2>
+        </div>
         {
           <Container>
             <Row>

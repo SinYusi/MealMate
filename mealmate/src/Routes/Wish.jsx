@@ -16,17 +16,18 @@ function Wish() {
             Authorization: `Bearer ${token}`
           }
         })
-        
         setWishData(response.data)
+        console.log('찜 목록 불러오기 성공')
       } catch (error) {
         console.log(error)
       }
     }
     getWishData()
-  }, [])
+  }, [cookies])
 
   return (
     <>
+      <h1 style={{ marginLeft: '100px' }}>찜 목록</h1>
       {wishData == null ? null : <RestaurantCard restaurantData={wishData.restaurantInfoList} />}
     </>
   )

@@ -39,7 +39,7 @@ function DetailBoard() {
   }
 
   return (
-    <>
+    <div style={{marginLeft: '100px'}}>
       <div>
         <h2>{board.title}</h2>
         <p>작성자 : {board.email}</p>
@@ -53,7 +53,7 @@ function DetailBoard() {
       </fieldset>
       <button onClick={() => setIsComment(true)}>댓글쓰기</button>
       {isComment === true ? <AddComment boardId={boardId} /> : null}
-    </>
+    </div>
   )
 }
 

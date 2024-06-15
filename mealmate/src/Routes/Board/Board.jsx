@@ -38,7 +38,7 @@ function FermentBoard(props) {
   }
   else {
     return (
-      <>
+      <div style={{ marginLeft: '100px', marginRight: '100px'}}>
         {
           props.boardData.map((data) => {
             return (
@@ -48,12 +48,13 @@ function FermentBoard(props) {
                 </Link>
                 <p>{data.lastTime}</p>
                 <p>{data.email}</p>
+                <hr style={{ width: '100%', color: 'black' }} noshade />
               </div >
             )
           })
         }
         {cookies.access_token ? <Link to='/addboard'>글 쓰기</Link> : null}
-      </>
+      </div>
     )
   }
 }
