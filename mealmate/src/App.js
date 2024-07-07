@@ -17,15 +17,25 @@ function App() {
     <div>
       <Navigationbar />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
+        {/* 홈페이지 */}
+        <Route path='/' element={<Home />} /> 
+        {/* 로그인 */}
+        <Route path='/login' element={<Login />} /> 
+        {/* 식당 추가 */}
         <Route path='/addrestaurant' element={<AddRestaurant />} />
+        {/* 가입하기 */}
         <Route path='/signup' element={<SignUp />} />
+        {/* 식당 */}
         <Route path='/restaurant' element={<Restaurant />} />
+        {/* 식당 상세 */}
         <Route path='/restaurant/:id' element={<DetailRestaurant />} />
+        {/* 게시판 */}
         <Route path='/board' element={<Board />} />
+        {/* 게시판 상세 */}
         <Route path='/board/:id' element={<DetailBoard />} />
+        {/* 게시판 추가 */}
         <Route path='/addboard' element={<AddBoard />} />
+        {/* 찜 목록 */}
         <Route path='/wish' element={<Wish />} />
       </Routes>
     </div>

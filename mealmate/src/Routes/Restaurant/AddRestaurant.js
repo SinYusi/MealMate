@@ -2,16 +2,22 @@ import axios from "axios"
 import { useState } from "react"
 
 function AddRestaurant() {
-  let [restaurantData, setRestaurantData] = useState({})
-  const [file, setFile] = useState(null)
+  const [restaurantData, setRestaurantData] = useState({}) //추가할 식당 데이터를 저장하는 변수
+  const [file, setFile] = useState(null) //이미지 파일을 저장하는 변수
 
+  //
+  // 추가 버튼을 누르면 작동되는 함수
+  //
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('imageFile', file);
-    formData.append('restaurantRegister', new Blob([JSON.stringify(restaurantData)], { type: "application/json" }))
+    e.preventDefault(); //함수가 작동되면 새로고침을 방지하는 문장
+    const formData = new FormData(); //폼데이터로 데이터 추가 요청을 하기 위해 만든 변수
+    formData.append('imageFile', file); //폼데이터에 이미지 파일 추가
+    formData.append('restaurantRegister', new Blob([JSON.stringify(restaurantData)], { type: "application/json" })) //폼데이터에 식당에 대한 정보를 json 형태로 추가
     try {
-      await axios.post('https://api.meal-mate.shop/api/restaurant', formData)
+      //
+      // api 요청
+      //
+      await axios.post('https://api.meal-mate.shop/api/restaurant', formData) //폼데이터로 데이터 추가 api 요청
       alert('성공')
     } catch (error) {
       console.log(error);
@@ -19,6 +25,7 @@ function AddRestaurant() {
     }
   }
 
+  //이미지 파일이 업로드 되면 실행되는 함수
   const onChangeImage = (e) => {
     const file = e.target.files[0];
     setFile(file);
