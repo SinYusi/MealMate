@@ -11,6 +11,7 @@ import Board from './Routes/Board/Board';
 import DetailBoard from './Routes/Board/DetailBoard';
 import AddBoard from './Routes/Board/AddBoard';
 import Wish from './Routes/Wish';
+import MyPage from './Routes/User/MyPage';
 
 function App() {
   return (
@@ -18,9 +19,9 @@ function App() {
       <Navigationbar />
       <Routes>
         {/* 홈페이지 */}
-        <Route path='/' element={<Home />} /> 
+        <Route path='/' element={<Home />} />
         {/* 로그인 */}
-        <Route path='/login' element={<Login />} /> 
+        <Route path='/login' element={<Login />} />
         {/* 식당 추가 */}
         <Route path='/addrestaurant' element={<AddRestaurant />} />
         {/* 가입하기 */}
@@ -37,6 +38,8 @@ function App() {
         <Route path='/addboard' element={<AddBoard />} />
         {/* 찜 목록 */}
         <Route path='/wish' element={<Wish />} />
+        {/* 회원 정보 */}
+        <Route path='/mypage' element={<MyPage />} />
       </Routes>
     </div>
   );
