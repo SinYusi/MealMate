@@ -1,11 +1,7 @@
-import { useEffect } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
 function RestaurantCard({ restaurantData }) {
-  useEffect(() => {
-    console.log(restaurantData)
-  }, [])
   return (
     <Container>
       <Row>
