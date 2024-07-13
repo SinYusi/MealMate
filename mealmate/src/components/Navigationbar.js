@@ -4,10 +4,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
 import { NavDropdown } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/authActions';
 
 function Navigationbar() {
     let navigate = useNavigate();
@@ -53,11 +55,11 @@ function Navigationbar() {
 }
 
 function LoginOrMypage(props) {
-    const [, , removeCookie] = useCookies(['access_token']);
+    const dispatch = useDispatch();
 
     const handleLogout = () => {
-        removeCookie('access_token', { path: '/' }); // 쿠키 삭제
-        props.navigate('/')
+        dispatch(logout());
+        window.location.replace('/');
     };
     if (props.isAuthenticated) {
         return (
