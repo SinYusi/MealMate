@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Login from './Routes/Login'
 import Home from './Routes/Home'
@@ -12,6 +12,24 @@ import DetailBoard from './Routes/Board/DetailBoard';
 import AddBoard from './Routes/Board/AddBoard';
 import Wish from './Routes/Wish';
 import MyPage from './Routes/User/MyPage';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkAuthStatus } from './redux/authActions';
+import { useEffect, useState } from 'react';
+
+const ProtectedRoute = ({ children }) => {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // 컴포넌트가 처음 마운트될 때 checkAuthStatus 액션을 디스패치
+  useEffect(() => {
+    dispatch(checkAuthStatus());
+    setLoading(false);
+  }, [dispatch]);
+  if (loading) {
+    return <div>Loading...</div>; // 로딩 중일 때 표시할 UI
+  }
+  return isAuthenticated ? children : <Navigate to="/login" />;
+}
 
 function App() {
   return (
@@ -39,7 +57,11 @@ function App() {
         {/* 찜 목록 */}
         <Route path='/wish' element={<Wish />} />
         {/* 회원 정보 */}
-        <Route path='/mypage' element={<MyPage />} />
+        <Route path='/mypage' element={
+          <ProtectedRoute>
+            <MyPage />
+          </ProtectedRoute>
+        } />
       </Routes>
     </div>
   );
