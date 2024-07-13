@@ -5,11 +5,11 @@ import { Link } from "react-router-dom"
 
 function Board() {
   const [boardData, setBoardData] = useState(null)
+
   useEffect(() => {
     try {
       const getData = async (e) => {
         const response = await axios.get('https://api.meal-mate.shop/api/board')
-        console.log(response.data)
         setBoardData(response.data)
       }
       getData()
@@ -38,15 +38,24 @@ function FermentBoard(props) {
   }
   else {
     return (
-      <div style={{ marginLeft: '100px', marginRight: '100px'}}>
+      <div style={{ marginLeft: '100px', marginRight: '100px' }}>
         {
           props.boardData.map((data) => {
+            const timeAgo = Math.floor(((new Date()) - (new Date(data.lastTime))) / (1000 * 60))
             return (
               <div key={data.boardId} >
                 <Link to={'./' + data.boardId} style={{ textDecorationLine: 'none' }}>
                   <p>{data.title}</p>
                 </Link>
-                <p>{data.lastTime}</p>
+                <p>
+                  {timeAgo ?
+                    timeAgo > 60 ?
+                      parseInt(timeAgo / 60) > 24 ?
+                        parseInt(timeAgo / 60 / 24) + '일'
+                        : parseInt(timeAgo / 60) + '시간'
+                      : timeAgo + '분'
+                    : '방금'} 전
+                </p>
                 <p>{data.email}</p>
                 <hr style={{ width: '100%', color: 'black' }} noshade />
               </div >
