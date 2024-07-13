@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/authActions';
 
 function Login() {
     const [id, setId] = useState(null) //id를 저장하는 변수
     const [password, setPassword] = useState(null) //비밀번호를 저장하는 변수
     const [error, setError] = useState(null) //에러 변수
     const navigate = useNavigate()
-    const [ , setCookie] = useCookies(['access_token']) //쿠키 변수
+    const dispatch = useDispatch();
+
     const handleSubmit = async (e) => { //로그인 버튼을 누르면 작동되는 함수
         e.preventDefault(); //버튼이 눌렸을 때 새로고침을 방지하는 함수
         if (!id) //아이디를 입력하지 않으면 
@@ -30,13 +32,7 @@ function Login() {
                 })
                 //받은 토큰을 쿠키에 저장
                 const token = response.data.token
-                setCookie('access_token', token, {
-                    path: '/',
-                    httpOnly: false,
-                    secure: true,
-                    sameSite: 'Strict',
-                    maxAge: 3600
-                })
+                dispatch(login(token));
                 //로그인 완료 시 홈페이지로 이동
                 navigate('/')
             } catch (error) {
