@@ -5,7 +5,6 @@ import { useCookies } from "react-cookie";
 function Comment({ boardId, user }) {
   const [comment, setComment] = useState([])
   const [cookies] = useCookies(['access_token'])
-  console.log(user);
 
   useEffect(() => {
     const loadCommentData = async () => {
@@ -32,6 +31,7 @@ function Comment({ boardId, user }) {
                 user ?
                   user.sub === data.email ?
                     <form onSubmit={async (e) => {
+                      e.preventDefault();
                       const token = cookies.access_token
                       try {
                         await axios.delete(`https://api.meal-mate.shop/api/comment/${data.commentId}`, {
@@ -39,7 +39,7 @@ function Comment({ boardId, user }) {
                             Authorization: `Bearer ${token}`
                           }
                         })
-                        document.location.href = document.location.href;
+                        window.location.reload();
                       } catch (error) {
                         console.log('댓글 삭제 중 오류 발생, 오류 코드 : ' + error)
                       }
@@ -51,12 +51,18 @@ function Comment({ boardId, user }) {
               }
             </div>
             <p>
-              {timeAgo ?
-                timeAgo > 60 ?
-                  parseInt(timeAgo / 60) > 24 ?
-                    parseInt(timeAgo / 60 / 24) + '일'
-                    : parseInt(timeAgo / 60) + '시간'
-                  : timeAgo + '분'
+              {timeAgo !== -1 ?
+                timeAgo ?
+                  timeAgo > 60 ?
+                    parseInt(timeAgo / 60) > 24 ?
+                      parseInt(timeAgo / 60 / 24) > 7 ?
+                        parseInt(timeAgo / 60 / 24 / 7) > 4 ?
+                          parseInt(timeAgo / 60 / 24 / 7 / 4) + '달'
+                          : parseInt(timeAgo / 60 / 24 / 7) + '주'
+                        : parseInt(timeAgo / 60 / 24) + '일'
+                      : parseInt(timeAgo / 60) + '시간'
+                    : timeAgo + '분'
+                  : '방금'
                 : '방금'
               } 전
             </p>

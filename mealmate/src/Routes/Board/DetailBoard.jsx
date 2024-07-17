@@ -33,9 +33,7 @@ function DetailBoard() {
 
     const checkTimeAgo = async () => {
       const postDate = new Date(board.lastTime)
-      console.log(postDate)
       const now = new Date();
-      console.log(now)
       const diffInMinutes = Math.floor((now - postDate) / (1000 * 60));
 
       setTimeAgo(diffInMinutes);
@@ -57,31 +55,36 @@ function DetailBoard() {
       <div>로딩 중</div>
     )
   }
-
-  return (
-    <>
-      <div style={{ display: 'flex' }}>
-        <h2>{board.title}</h2>
-        <DeleteAndFetchBoard isMatched={isMatched} boardId={boardId} />
-      </div>
-      <p>작성자 : {board.email}</p>
-      <p>{timeAgo ?
-        timeAgo > 60 ?
-          parseInt(timeAgo / 60) > 24 ?
-            parseInt(timeAgo / 60 / 24) + '일'
-            : parseInt(timeAgo / 60) + '시간'
-          : timeAgo + '분'
-        : '방금'
-      } 전</p>
-      <p>{board.content}</p>
-      <fieldset>
-        <legend>댓글</legend>
-        {<Comment boardId={boardId} user={user} />}
-      </fieldset>
-      <button onClick={() => setIsComment(true)}>댓글쓰기</button>
-      {isComment === true ? <AddComment boardId={boardId} /> : null}
-    </>
-  )
+  else {
+    return (
+      <>
+        <div style={{ display: 'flex' }}>
+          <h2>{board.title}</h2>
+          <DeleteAndFetchBoard isMatched={isMatched} boardId={boardId} />
+        </div>
+        <p>작성자 : {board.email}</p>
+        <p>{timeAgo ?
+          timeAgo > 60 ?
+            parseInt(timeAgo / 60) > 24 ?
+              parseInt(timeAgo / 60 / 24) > 7 ?
+                parseInt(timeAgo / 60 / 24 / 7) > 4 ?
+                  parseInt(timeAgo / 60 / 24 / 7 / 4) + '달'
+                  : parseInt(timeAgo / 60 / 24 / 7) + '주'
+                : parseInt(timeAgo / 60 / 24) + '일'
+              : parseInt(timeAgo / 60) + '시간'
+            : timeAgo + '분'
+          : '방금'
+        } 전</p>
+        <p>{board.content}</p>
+        <fieldset>
+          <legend>댓글</legend>
+          {<Comment boardId={boardId} user={user} />}
+        </fieldset>
+        <button onClick={() => setIsComment(true)}>댓글쓰기</button>
+        {isComment === true ? <AddComment boardId={boardId} /> : null}
+      </>
+    )
+  }
 }
 
 function DeleteAndFetchBoard(props) {
@@ -109,32 +112,42 @@ function DeleteAndFetchBoard(props) {
 }
 
 function AddComment(props) {
-  const navigate = useNavigate()
   const [cookies] = useCookies(['access_token'])
   const [addComment, setAddComment] = useState(null)
-  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(null)
+
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const token = cookies.access_token
-    try {
-      await axios.post(`https://api.meal-mate.shop/api/comment/${props.boardId}`, {
-        commentContent: addComment
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      setSuccess(true)
-    } catch (error) {
-      console.log(error)
+    console.log(addComment)
+    if (!addComment) {
+      setError('댓글을 작성해주세요.');
+      return
     }
-    if (success === true)
-      navigate('./')
+    else {
+      try {
+        await axios.post(`https://api.meal-mate.shop/api/comment/${props.boardId}`, {
+          commentContent: addComment
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        window.location.reload()
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="댓글을 쓰세요" onChange={(e) => { setAddComment(e.target.value) }} />
-      <button type="submit">추가</button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="댓글을 쓰세요" onChange={(e) => { setAddComment(e.target.value) }} />
+        <button type="submit">추가</button>
+      </form>
+      <p>{error}</p>
+    </>
   )
 }
 
