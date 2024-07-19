@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 function Comment({ boardId, user }) {
   const [comment, setComment] = useState([])
   const [cookies] = useCookies(['access_token'])
+  const [fetchButton, setFetchButton] = useState(null);
 
   useEffect(() => {
     const loadCommentData = async () => {
@@ -18,6 +19,21 @@ function Comment({ boardId, user }) {
     loadCommentData()
   }, [boardId])
 
+  const deleteSubmit = async (e, data) => {
+    e.preventDefault();
+    const token = cookies.access_token
+    try {
+      await axios.delete(`https://api.meal-mate.shop/api/comment/${data.commentId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      window.location.reload();
+    } catch (error) {
+      console.log('댓글 삭제 중 오류 발생, 오류 코드 : ' + error)
+    }
+  }
+
   return (
     <div>
       {comment.map((data, i) => {
@@ -26,26 +42,22 @@ function Comment({ boardId, user }) {
           <div key={data.commentId} style={{ position: 'relative', marginBottom: '1em' }}>
             <p style={{ fontWeight: 'bold' }}>{data.email}</p>
             <div style={{ display: 'flex' }}>
-              <p>{data.commentContent}</p>
+              {fetchButton ?
+                <input type="text"></input>
+                : <p>{data.commentContent}</p>
+              }
+
               {
                 user ?
                   user.sub === data.email ?
-                    <form onSubmit={async (e) => {
-                      e.preventDefault();
-                      const token = cookies.access_token
-                      try {
-                        await axios.delete(`https://api.meal-mate.shop/api/comment/${data.commentId}`, {
-                          headers: {
-                            Authorization: `Bearer ${token}`
-                          }
-                        })
-                        window.location.reload();
-                      } catch (error) {
-                        console.log('댓글 삭제 중 오류 발생, 오류 코드 : ' + error)
-                      }
-                    }}>
-                      <button type="submit">댓글 삭제</button>
-                    </form>
+                    <div style={{ display: 'flex' }}>
+                      <form onSubmit={(e) => deleteSubmit(e, data)}>
+                        <button type="submit">댓글 삭제</button>
+                      </form>
+                      <form>
+                        <button type="submit" onClick={() => setFetchButton(true)}>댓글 수정</button>
+                      </form>
+                    </div>
                     : null
                   : null
               }
